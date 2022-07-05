@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AuditResponseServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">audit-severity</a> &gt; <a href="index.source.html" class="el_package">com.mfpe.service</a> &gt; <span class="el_source">AuditResponseServiceImpl.java</span></div><h1>AuditResponseServiceImpl.java</h1><pre class="source lang-java linenums">package com.mfpe.service;
+
+import java.util.Date;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.mfpe.model.AuditBenchmark;
+import com.mfpe.model.AuditQuestion;
+import com.mfpe.model.AuditRequest;
+import com.mfpe.model.AuditResponse;
+import com.mfpe.repository.AuditResponseRepo;
+
+import lombok.extern.slf4j.Slf4j;
+
+@Service
+<span class="fc" id="L18">@Slf4j</span>
+<span class="fc" id="L19">public class AuditResponseServiceImpl implements AuditResponseService {</span>
+
+	@Autowired
+	private AuditResponseRepo auditResponseRepo;
+
+	/**
+	 * 
+	 * @param acceptableNo
+	 * @param questions
+	 * @return auditResponse
+	 */
+	public AuditResponse createAuditResponse(int acceptableNo, List&lt;AuditQuestion&gt; questions) {
+
+<span class="fc" id="L32">		String auditType = questions.get(0).getAuditType();</span>
+<span class="fc" id="L33">		int actualNo = countNos(questions);</span>
+<span class="fc" id="L34">		AuditResponse auditResponse = new AuditResponse();</span>
+
+<span class="fc" id="L36">		log.info(String.format(&quot;Audit-type : %s, Actual-Nos : %d, Acceptable Nos : %d&quot;, auditType, actualNo,</span>
+<span class="fc" id="L37">				acceptableNo));</span>
+
+<span class="fc bfc" id="L39" title="All 4 branches covered.">		if (actualNo &lt;= acceptableNo &amp;&amp; auditType.equalsIgnoreCase(&quot;Internal&quot;)) {</span>
+<span class="fc" id="L40">			auditResponse.setProjectExecutionStatus(&quot;GREEN&quot;);</span>
+<span class="fc" id="L41">			auditResponse.setRemedialActionDuration(&quot;No action needed&quot;);</span>
+<span class="fc bfc" id="L42" title="All 4 branches covered.">		} else if (actualNo &gt; acceptableNo &amp;&amp; auditType.equalsIgnoreCase(&quot;Internal&quot;)) {</span>
+<span class="fc" id="L43">			auditResponse.setProjectExecutionStatus(&quot;RED&quot;);</span>
+<span class="fc" id="L44">			auditResponse.setRemedialActionDuration(&quot;Action to be taken in 2 weeks&quot;);</span>
+<span class="pc bpc" id="L45" title="1 of 4 branches missed.">		} else if (actualNo &lt;= acceptableNo &amp;&amp; auditType.equalsIgnoreCase(&quot;SOX&quot;)) {</span>
+<span class="fc" id="L46">			auditResponse.setProjectExecutionStatus(&quot;GREEN&quot;);</span>
+<span class="fc" id="L47">			auditResponse.setRemedialActionDuration(&quot;No action needed&quot;);</span>
+		} else {
+<span class="fc" id="L49">			auditResponse.setProjectExecutionStatus(&quot;RED&quot;);</span>
+<span class="fc" id="L50">			auditResponse.setRemedialActionDuration(&quot;Action to be taken in 1 week&quot;);</span>
+		}
+
+<span class="fc" id="L53">		return auditResponse;</span>
+	}
+
+	/**
+	 * 
+	 * @param questions
+	 * @return count
+	 */
+	public int countNos(List&lt;AuditQuestion&gt; questions) {
+
+<span class="fc" id="L63">		int count = 0;</span>
+<span class="fc bfc" id="L64" title="All 2 branches covered.">		for (AuditQuestion q : questions) {</span>
+<span class="fc bfc" id="L65" title="All 2 branches covered.">			if (q.getResponse().equalsIgnoreCase(&quot;No&quot;)) {</span>
+<span class="fc" id="L66">				count++;</span>
+			}
+<span class="fc" id="L68">		}</span>
+<span class="fc" id="L69">		return count;</span>
+	}
+
+	@Override
+	public AuditResponse getAuditResponse(List&lt;AuditBenchmark&gt; benchmarkList, String auditType,
+			List&lt;AuditQuestion&gt; questionResponses) {
+		// TODO Auto-generated method stub
+<span class="fc" id="L76">		int acceptableNo = 0;</span>
+<span class="fc bfc" id="L77" title="All 2 branches covered.">		for (AuditBenchmark ab : benchmarkList) {</span>
+<span class="fc bfc" id="L78" title="All 2 branches covered.">			if (ab.getAuditType().equalsIgnoreCase(auditType)) {</span>
+<span class="fc" id="L79">				acceptableNo = ab.getBenchmarkNoAnswers();</span>
+			}
+<span class="fc" id="L81">		}</span>
+
+<span class="fc" id="L83">		AuditResponse auditResponse = createAuditResponse(acceptableNo, questionResponses);</span>
+<span class="fc" id="L84">		return auditResponse;</span>
+	}
+
+	@Override
+	public AuditResponse saveAuditResponse(AuditResponse auditResponse, AuditRequest auditRequest) {
+
+<span class="fc" id="L90">		auditResponse.setProjectName(auditRequest.getProjectName());</span>
+<span class="fc" id="L91">		auditResponse.setManagerName(auditRequest.getManagerName());</span>
+<span class="fc" id="L92">		auditResponse.setCreationDateTime(new Date());</span>
+<span class="fc" id="L93">		log.info(&quot;Saving Audit-Response in DB :: &quot; + auditResponse);</span>
+
+<span class="fc" id="L95">		return auditResponseRepo.save(auditResponse);</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

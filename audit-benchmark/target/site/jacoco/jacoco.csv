@@ -1,0 +1,10 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+audit-benchmark,com.mfpe.controller,AuditBenchmarkController,5,32,2,2,1,8,2,4,0,4
+audit-benchmark,com.mfpe.service,AuthorizationServiceImpl,0,11,0,0,0,2,0,2,0,2
+audit-benchmark,com.mfpe.service,AuditBenchmarkServiceImpl,0,7,0,0,0,2,0,2,0,2
+audit-benchmark,com.mfpe.model,AuditBenchmark,132,15,18,0,4,2,19,2,10,2
+audit-benchmark,com.mfpe.model,AuthenticationResponse,105,63,23,3,0,6,19,6,6,6
+audit-benchmark,com.mfpe.exception,ValidationException,7,0,0,0,4,0,2,0,2,0
+audit-benchmark,com.mfpe.exception,ExceptionHandlerAdvice,25,7,0,0,5,2,2,2,2,2
+audit-benchmark,com.mfpe,AuditBenchmarkApplication,5,3,0,0,2,1,1,1,1,1
+audit-benchmark,com.mfpe.swagger,SwaggerConfig,0,15,0,0,0,3,0,2,0,2

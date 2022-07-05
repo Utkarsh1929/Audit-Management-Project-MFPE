@@ -1,0 +1,11 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+audit-checklist,com.mfpe.controller,AuditChecklistController,5,33,2,2,1,8,2,4,0,4
+audit-checklist,com.mfpe.service,AuthorizationServiceImpl,0,11,0,0,0,2,0,2,0,2
+audit-checklist,com.mfpe.service,QuestionServiceImpl,7,3,0,0,2,1,1,1,1,1
+audit-checklist,com.mfpe.model,AuthenticationResponse,105,63,23,3,0,6,19,6,6,6
+audit-checklist,com.mfpe.model,Question,192,18,32,0,5,2,28,2,12,2
+audit-checklist,com.mfpe.model,AuditType,89,0,14,0,4,0,15,0,8,0
+audit-checklist,com.mfpe.exception,ValidationException,7,0,0,0,4,0,2,0,2,0
+audit-checklist,com.mfpe.exception,ExceptionHandlerAdvice,22,12,0,0,4,3,2,2,2,2
+audit-checklist,com.mfpe,AuditChecklistApplication,5,3,0,0,2,1,1,1,1,1
+audit-checklist,com.mfpe.swagger,SwaggerConfig,0,15,0,0,0,3,0,2,0,2
